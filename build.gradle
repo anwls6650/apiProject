@@ -32,6 +32,12 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter-test:3.0.4'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+	
+	// MariaDB JDBC 드라이버
+    implementation 'org.mariadb.jdbc:mariadb-java-client:3.0.6'
+
+    // Spring Boot Starter JDBC (JDBC 연동을 위한 기본 의존성)
+    implementation 'org.springframework.boot:spring-boot-starter-jdbc'
 }
 
 tasks.named('test') {
