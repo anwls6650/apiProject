@@ -18,11 +18,11 @@ public class DbConfig {
         SqlSessionFactoryBean sessionFactory = new SqlSessionFactoryBean();
         sessionFactory.setDataSource(dataSource);
 
-        // XML 매퍼 파일 경로 수동 지정
+     
         Resource[] resources = new PathMatchingResourcePatternResolver()
                 .getResources("classpath:com/kmj/apiProject/**/dao/mapper/*.xml");
 
-        sessionFactory.setMapperLocations(resources); // 경로 설정
+        sessionFactory.setMapperLocations(resources); 
 
         return sessionFactory.getObject();
     }
