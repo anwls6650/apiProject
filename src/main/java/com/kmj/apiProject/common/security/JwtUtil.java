@@ -41,8 +41,8 @@ public class JwtUtil {
     }
 
     // JWT에서 사용자 ID 추출
-    public Long extractUserId(String token) {
-        return Long.parseLong(extractClaims(token).get("userId").toString());
+    public String extractUserId(String token) {
+    	return extractClaims(token).get("userId").toString();
     }
 
     // JWT 토큰 검증
@@ -51,7 +51,7 @@ public class JwtUtil {
     }
 
     // 토큰이 유효한지 확인
-    public boolean validateToken(String token, String username) {
-        return (username.equals(extractClaims(token).get("username")) && !isTokenExpired(token));
+    public boolean validateToken(String token, String id) {
+        return (id.equals(extractClaims(token).get("userId")) && !isTokenExpired(token));
     }
 }
