@@ -18,9 +18,16 @@ public class LoginDao extends BaseDao {
         return NAMESPACE;
     }
 
-    // 사용자명으로 사용자 정보 조회
+    // id로 사용자 정보 조회
     public LoginDto userDetail(LoginDto loginDto) {
         
         return selectOne("userDetail", loginDto);
     }
+    
+ 	// 회원가입
+    public int signUp(LoginDto loginDto) {
+        
+        return insert("signUp", loginDto);
+    }
+    
 }

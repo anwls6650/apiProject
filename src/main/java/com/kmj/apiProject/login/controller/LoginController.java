@@ -17,8 +17,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @Controller
-@RequestMapping("/api")
-@CrossOrigin("*")
+@RequestMapping("/kmj/user")
 public class LoginController {
 
 	
@@ -30,18 +29,14 @@ public class LoginController {
     
     
     
-    @PostMapping("/login")
+    @PostMapping("/signUp")
     @ResponseBody
-    public Map<Object, Object> login(@RequestBody LoginDto loginDto) {
+    public Map<Object, Object> signUp(@RequestBody LoginDto loginDto) {
     	
-    	 logger.info("/api/login : {}", loginDto);
-    	try {
-    		return loginService.login(loginDto);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-       
-        return loginService.login(loginDto);
+    	logger.info("/kmj/signUp : {}", loginDto);
+
+    	return loginService.signUp(loginDto);
+ 
         
     }
     
