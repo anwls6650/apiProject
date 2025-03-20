@@ -3,21 +3,21 @@
 
 
 <mapper
-	namespace="com.kmj.apiProject.login.dao.mapper.LoginMapper">
+	namespace="com.kmj.apiProject.auth.dao.mapper.AuthMapper">
 
 	<select id="userDetail"
-		parameterType="com.kmj.apiProject.login.dto.LoginDto"
-		resultType="com.kmj.apiProject.login.dto.LoginDto">
+		parameterType="com.kmj.apiProject.auth.dto.AuthDto"
+		resultType="com.kmj.apiProject.auth.dto.AuthDto">
 		select *
-		from user
+		from users
 		where id = #{id}
 	</select>
 
 
 	<insert id="signUp"
-		parameterType="com.kmj.apiProject.login.dto.LoginDto">
+		parameterType="com.kmj.apiProject.auth.dto.AuthDto">
 		insert
-		into user
+		into users
 		(
 		id
 		,name

@@ -1,9 +1,9 @@
-package com.kmj.apiProject.login.dto;
+package com.kmj.apiProject.auth.dto;
 
 import lombok.Data;
 
 @Data
-public class LoginDto {
+public class AuthDto {
 	
 	
 	private String name; 

@@ -1,4 +1,4 @@
-package com.kmj.apiProject.login.controller;
+package com.kmj.apiProject.auth.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.kmj.apiProject.login.dto.LoginDto;
-import com.kmj.apiProject.login.service.LoginService;
+import com.kmj.apiProject.auth.dto.AuthDto;
+import com.kmj.apiProject.auth.service.AuthService;
 
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -19,18 +19,18 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @Controller
-@RequestMapping("/kmj/user")
-public class LoginController {
+@RequestMapping("/kmj/auth")
+public class AuthController {
 
 	// SLF4J Logger 생성
-	private static final Logger logger = LoggerFactory.getLogger(LoginController.class);
+	private static final Logger logger = LoggerFactory.getLogger(AuthController.class);
 
 	@Autowired
-	LoginService loginService;
+	AuthService loginService;
 
 	@PostMapping("/signUp")
 	@ResponseBody
-	public Map<Object, Object> signUp(@RequestBody LoginDto loginDto) {
+	public Map<Object, Object> signUp(@RequestBody AuthDto loginDto) {
 
 		logger.info("/kmj/signUp : {}", loginDto);
 
@@ -40,7 +40,7 @@ public class LoginController {
 
 	@PostMapping("/login")
 	@ResponseBody
-	public Map<Object, Object> login(@RequestBody LoginDto loginDto) {
+	public Map<Object, Object> login(@RequestBody AuthDto loginDto) {
 
 		logger.info("/kmj/login : {}", loginDto);
 

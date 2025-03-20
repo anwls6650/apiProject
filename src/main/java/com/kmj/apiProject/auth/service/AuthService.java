@@ -1,4 +1,4 @@
-package com.kmj.apiProject.login.service;
+package com.kmj.apiProject.auth.service;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -7,19 +7,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.kmj.apiProject.auth.dao.AuthDao;
+import com.kmj.apiProject.auth.dto.AuthDto;
 import com.kmj.apiProject.common.config.ErrorCode;
 import com.kmj.apiProject.common.config.UtilsConfig;
 import com.kmj.apiProject.common.security.JwtUtil;
-import com.kmj.apiProject.login.dao.LoginDao;
-import com.kmj.apiProject.login.dto.LoginDto;
 
 import jakarta.servlet.http.HttpServletRequest;
 
 @Service
-public class LoginService {
+public class AuthService {
 
 	@Autowired
-	LoginDao loginDao;
+	AuthDao loginDao;
 
 	@Autowired
 	private PasswordEncoder passwordEncoder;
@@ -27,7 +27,7 @@ public class LoginService {
 	@Autowired
 	private JwtUtil jwtUtil;
 
-	public Map<Object, Object> signUp(LoginDto loginDto) {
+	public Map<Object, Object> signUp(AuthDto loginDto) {
 		Map<Object, Object> response = new HashMap<Object, Object>();
 		response.putAll(ErrorCode.FAIL.toMap());
 
@@ -38,7 +38,7 @@ public class LoginService {
 		}
 
 		try {
-			LoginDto userDetail = loginDao.userDetail(loginDto);
+			AuthDto userDetail = loginDao.userDetail(loginDto);
 
 			if (userDetail == null) {
 				response.putAll(ErrorCode.USER_ALREADY_EXISTS.toMap());
@@ -64,7 +64,7 @@ public class LoginService {
 		return response;
 	}
 
-	public Map<Object, Object> login(LoginDto loginDto) {
+	public Map<Object, Object> login(AuthDto loginDto) {
 		Map<Object, Object> response = new HashMap<Object, Object>();
 		response.putAll(ErrorCode.FAIL.toMap());
 
@@ -74,7 +74,7 @@ public class LoginService {
 		}
 
 		try {
-			LoginDto userDetail = loginDao.userDetail(loginDto);
+			AuthDto userDetail = loginDao.userDetail(loginDto);
 
 			// 사용자 확인
 			if (userDetail == null) {

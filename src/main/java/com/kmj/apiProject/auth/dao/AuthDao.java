@@ -1,16 +1,16 @@
-package com.kmj.apiProject.login.dao;
+package com.kmj.apiProject.auth.dao;
 
 
 import org.springframework.stereotype.Repository;
 
+import com.kmj.apiProject.auth.dto.AuthDto;
 import com.kmj.apiProject.common.dao.BaseDao;
-import com.kmj.apiProject.login.dto.LoginDto;
 
 @Repository
-public class LoginDao extends BaseDao {
+public class AuthDao extends BaseDao {
 
   
-    private static final String NAMESPACE = "com.kmj.apiProject.login.dao.mapper.LoginMapper.";
+    private static final String NAMESPACE = "com.kmj.apiProject.auth.dao.mapper.AuthMapper.";
 
 
     @Override
@@ -19,13 +19,13 @@ public class LoginDao extends BaseDao {
     }
 
     // id로 사용자 정보 조회
-    public LoginDto userDetail(LoginDto loginDto) {
+    public AuthDto userDetail(AuthDto loginDto) {
         
         return selectOne("userDetail", loginDto);
     }
     
  	// 회원가입
-    public int signUp(LoginDto loginDto) {
+    public int signUp(AuthDto loginDto) {
         
         return insert("signUp", loginDto);
     }
