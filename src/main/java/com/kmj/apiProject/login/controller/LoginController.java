@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.kmj.apiProject.login.dto.LoginDto;
 import com.kmj.apiProject.login.service.LoginService;
 
+import jakarta.servlet.http.HttpServletRequest;
+
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -43,6 +45,15 @@ public class LoginController {
 		logger.info("/kmj/login : {}", loginDto);
 
 		return loginService.login(loginDto);
+
+	}
+	
+	@PostMapping("/logout")
+	public Map<Object, Object> logout(HttpServletRequest request) {
+
+		logger.info("/kmj/login : {}", request);
+
+		return loginService.logout(request);
 
 	}
 }
