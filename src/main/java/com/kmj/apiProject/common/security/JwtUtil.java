@@ -24,7 +24,7 @@ public class JwtUtil {
     public String createToken(String id, String username) {
         return Jwts.builder()
             .claim("userId", id)
-            .claim("username", username)
+            .claim("name", username)
             .setIssuedAt(new Date())
             .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60)) // 1시간 유효
             .signWith(key, SignatureAlgorithm.HS256)

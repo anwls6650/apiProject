@@ -32,7 +32,7 @@ public class JwtFilter implements Filter {
 
         if (token != null && token.startsWith("Bearer ")) {
             token = token.substring(7); // "Bearer " 제거
-            String username = jwtUtil.extractClaims(token).get("username").toString();
+            String username = jwtUtil.extractClaims(token).get("userId").toString();
 
             if (jwtUtil.validateToken(token, username)) {
                 // 유효한 토큰이면 인증된 사용자로 설정
