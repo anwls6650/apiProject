@@ -1,4 +1,4 @@
-package com.kmj.apiProject.common;
+package com.kmj.apiProject.common.config;
 
 import javax.sql.DataSource;
 
