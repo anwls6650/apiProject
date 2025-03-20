@@ -20,24 +20,29 @@ import org.slf4j.LoggerFactory;
 @RequestMapping("/kmj/user")
 public class LoginController {
 
-	
 	// SLF4J Logger 생성
-    private static final Logger logger = LoggerFactory.getLogger(LoginController.class);
-    
-    @Autowired
-    LoginService loginService;
-    
-    
-    
-    @PostMapping("/signUp")
-    @ResponseBody
-    public Map<Object, Object> signUp(@RequestBody LoginDto loginDto) {
-    	
-    	logger.info("/kmj/signUp : {}", loginDto);
+	private static final Logger logger = LoggerFactory.getLogger(LoginController.class);
 
-    	return loginService.signUp(loginDto);
- 
-        
-    }
-    
+	@Autowired
+	LoginService loginService;
+
+	@PostMapping("/signUp")
+	@ResponseBody
+	public Map<Object, Object> signUp(@RequestBody LoginDto loginDto) {
+
+		logger.info("/kmj/signUp : {}", loginDto);
+
+		return loginService.signUp(loginDto);
+
+	}
+
+	@PostMapping("/login")
+	@ResponseBody
+	public Map<Object, Object> login(@RequestBody LoginDto loginDto) {
+
+		logger.info("/kmj/login : {}", loginDto);
+
+		return loginService.login(loginDto);
+
+	}
 }
