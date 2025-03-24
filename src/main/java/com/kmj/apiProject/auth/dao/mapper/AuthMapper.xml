@@ -15,6 +15,15 @@
 	</select>
 
 
+	<select id="driverDetail"
+		parameterType="com.kmj.apiProject.auth.dto.DriverDto"
+		resultType="com.kmj.apiProject.auth.dto.DriverDto">
+		select *
+		from drivers
+		where id = #{id}
+	</select>
+
+
 	<insert id="signUp"
 		parameterType="com.kmj.apiProject.auth.dto.AuthDto">
 		insert
@@ -25,8 +34,8 @@
 		,password
 		,email
 		,phone_num
-		<if test="memo != null and !memo.equals('')">
-		,memo
+		<if test="memo != null and !address.equals('')">
+		,address
 		</if>
 		)
 		values
@@ -36,8 +45,34 @@
 		,#{password}
 		,#{email}
 		,#{phoneNum}
-		<if test="memo != null and !memo.equals('')">
-		,#{memo}
+		<if test="address != null and !address.equals('')">
+		,#{address}
+		</if>
+		)
+	</insert>
+
+
+	<insert id="driverSignUp"
+		parameterType="com.kmj.apiProject.auth.dto.DriverDto">
+		insert
+		into users
+		(
+		id
+		,name
+		,password
+		,phone_num
+		<if test="email != null and !email.equals('')">
+		,email
+		</if>
+		)
+		values
+		(
+		#{id}
+		,#{name}
+		,#{password}
+		,#{phoneNum}
+		<if test="email != null and !email.equals('')">
+		,#{email}
 		</if>
 		)
 	</insert>

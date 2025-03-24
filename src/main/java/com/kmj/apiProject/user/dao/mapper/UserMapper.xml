@@ -23,12 +23,18 @@
 		user_id
 		,entry_method_id
 		,delivery_address
+		<if test="memo != null and !memo.equals('')">
+		,memo
+		</if>
 		)
 		values
 		(
 		#{userId}
 		,#{entryMethodId}
 		,#{deliveryAddress}
+		<if test="memo != null and !memo.equals('')">
+		,#{memo}
+		</if>
 		)
 	</insert>
 	

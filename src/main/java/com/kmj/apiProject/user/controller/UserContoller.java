@@ -46,7 +46,7 @@ public class UserContoller {
 	private AuthService authService;
 
 	/**
-	 * 회원 정보 API
+	 * 회원 정보
 	 * 
 	 * @param id
 	 */

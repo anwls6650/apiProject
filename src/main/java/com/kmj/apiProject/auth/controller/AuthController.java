@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.kmj.apiProject.auth.dto.AuthDto;
+import com.kmj.apiProject.auth.dto.DriverDto;
 import com.kmj.apiProject.auth.service.AuthService;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -28,13 +29,35 @@ public class AuthController {
 	@Autowired
 	AuthService loginService;
 
-	@PostMapping("/signUp")
+	
+	/**
+	 * 유저 회원가입 
+	 * 
+	 * @param authDto
+	 */
+	@PostMapping("/user/signUp")
 	@ResponseBody
 	public Map<Object, Object> signUp(@RequestBody AuthDto authDto) {
 
-		logger.info("/kmj/signUp : {}", authDto);
+		logger.info("/kmj/auth/user/signUp : {}", authDto);
 
 		return loginService.signUp(authDto);
+
+	}
+	
+	
+	/**
+	 * 기사 회원가입 
+	 * 
+	 * @param authDto
+	 */
+	@PostMapping("/driver/signUp")
+	@ResponseBody
+	public Map<Object, Object> driverSignUp(@RequestBody DriverDto driverDto) {
+
+		logger.info("/kmj/auth/driver/signUp : {}", driverDto);
+
+		return loginService.driverSignUp(driverDto);
 
 	}
 
@@ -42,7 +65,7 @@ public class AuthController {
 	@ResponseBody
 	public Map<Object, Object> login(@RequestBody AuthDto authDto) {
 
-		logger.info("/kmj/login : {}", authDto);
+		logger.info("/kmj/auth/login : {}", authDto);
 
 		return loginService.login(authDto);
 
@@ -51,7 +74,7 @@ public class AuthController {
 	@PostMapping("/logout")
 	public Map<Object, Object> logout(HttpServletRequest request) {
 
-		logger.info("/kmj/login : {}", request);
+		logger.info("/kmj/auth/logout : {}", request);
 
 		return loginService.logout(request);
 

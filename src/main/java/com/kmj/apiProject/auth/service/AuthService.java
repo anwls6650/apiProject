@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.kmj.apiProject.auth.dao.AuthDao;
 import com.kmj.apiProject.auth.dto.AuthDto;
+import com.kmj.apiProject.auth.dto.DriverDto;
 import com.kmj.apiProject.common.config.ErrorCode;
 import com.kmj.apiProject.common.config.UtilsConfig;
 import com.kmj.apiProject.common.security.JwtUtil;
@@ -19,7 +20,7 @@ import jakarta.servlet.http.HttpServletRequest;
 public class AuthService {
 
 	@Autowired
-	AuthDao loginDao;
+	AuthDao authDao;
 
 	@Autowired
 	private PasswordEncoder passwordEncoder;
@@ -27,6 +28,12 @@ public class AuthService {
 	@Autowired
 	private JwtUtil jwtUtil;
 
+	
+	/**
+	 * 유저 회원가입 
+	 * 
+	 * @param authDto
+	 */
 	public Map<Object, Object> signUp(AuthDto authDto) {
 		Map<Object, Object> response = new HashMap<Object, Object>();
 		response.putAll(ErrorCode.FAIL.toMap());
@@ -38,7 +45,7 @@ public class AuthService {
 		}
 
 		try {
-			AuthDto userDetail = loginDao.userDetail(authDto);
+			AuthDto userDetail = authDao.userDetail(authDto);
 
 			if (userDetail != null) {
 				response.putAll(ErrorCode.USER_ALREADY_EXISTS.toMap());
@@ -51,11 +58,51 @@ public class AuthService {
 			// 암호화된 비밀번호를 User 객체에 설정
 			authDto.setPassword(encryptedPassword);
 
-			loginDao.signUp(authDto);
+			authDao.signUp(authDto);
 			
-			AuthDto userDetailR2 = loginDao.userDetail(authDto);
+			AuthDto userDetailR2 = authDao.userDetail(authDto);
 
 			String token = jwtUtil.createToken(authDto.getId(), authDto.getName(),userDetailR2.getUserId());
+
+			response.putAll(ErrorCode.SUCCESS.toMap());
+			response.put("token", token);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return response;
+	}
+	
+	
+	public Map<Object, Object> driverSignUp(DriverDto driverDto) {
+		Map<Object, Object> response = new HashMap<Object, Object>();
+		response.putAll(ErrorCode.FAIL.toMap());
+
+		if (UtilsConfig.isNullOrEmpty(driverDto.getId()) || UtilsConfig.isNullOrEmpty(driverDto.getPhoneNum())
+				|| UtilsConfig.isNullOrEmpty(driverDto.getName()) || UtilsConfig.isNullOrEmpty(driverDto.getPassword())) {
+			response.putAll(ErrorCode.PARAMETER_FAIL.toMap());
+			return response;
+		}
+
+		try {
+			DriverDto driverDetail = authDao.driverDetail(driverDto);
+
+			if (driverDetail != null) {
+				response.putAll(ErrorCode.USER_ALREADY_EXISTS.toMap());
+				return response;
+			}
+
+			// 비밀번호 암호화
+			String encryptedPassword = passwordEncoder.encode(driverDto.getPassword());
+
+			// 암호화된 비밀번호를 User 객체에 설정
+			driverDto.setPassword(encryptedPassword);
+
+			authDao.driverSignUp(driverDto);
+			
+			DriverDto driverDetailR2 = authDao.driverDetail(driverDto);
+
+			String token = jwtUtil.createToken(driverDetailR2.getId(), driverDetailR2.getName(),driverDetailR2.getDriverId());
 
 			response.putAll(ErrorCode.SUCCESS.toMap());
 			response.put("token", token);
@@ -76,7 +123,7 @@ public class AuthService {
 		}
 
 		try {
-			AuthDto userDetail = loginDao.userDetail(authDto);
+			AuthDto userDetail = authDao.userDetail(authDto);
 
 			// 사용자 확인
 			if (userDetail == null) {
@@ -90,7 +137,7 @@ public class AuthService {
 				return response;
 			}
 
-			AuthDto userDetailR2 = loginDao.userDetail(authDto);
+			AuthDto userDetailR2 = authDao.userDetail(authDto);
 
 			String token = jwtUtil.createToken(authDto.getId(), authDto.getName(),userDetailR2.getUserId());
 

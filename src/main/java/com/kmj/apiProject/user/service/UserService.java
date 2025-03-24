@@ -12,9 +12,7 @@ import com.kmj.apiProject.common.config.ErrorCode;
 import com.kmj.apiProject.user.dao.UserDao;
 import com.kmj.apiProject.user.dto.EntryMethodsDto;
 import com.kmj.apiProject.user.dto.UserDeliveryDto;
-import com.kmj.apiProject.user.dto.UserDto;
 
-import jakarta.servlet.http.HttpServletRequest;
 
 @Service
 public class UserService {
@@ -23,7 +21,7 @@ public class UserService {
 	UserDao userDao;
 
 	/**
-	 * 회원 정보 API
+	 * 회원 정보
 	 * 
 	 * @param id
 	 */
