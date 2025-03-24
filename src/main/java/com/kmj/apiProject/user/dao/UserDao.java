@@ -4,6 +4,7 @@ import org.springframework.stereotype.Repository;
 
 import com.kmj.apiProject.auth.dto.AuthDto;
 import com.kmj.apiProject.common.dao.BaseDao;
+import com.kmj.apiProject.user.dto.UserDeliveryDto;
 
 @Repository
 public class UserDao extends BaseDao {
@@ -16,9 +17,16 @@ public class UserDao extends BaseDao {
         return NAMESPACE;
     }
     
- // id로 사용자 정보 조회
-    public AuthDto userDetail(String id) {
+    // userId로 사용자 정보 조회
+    public AuthDto userDetail(int id) {
         
         return selectOne("userDetail", id);
+    }
+    
+    
+    // 배송지 + 출입방법 등록
+    public int delivery(UserDeliveryDto userDeliveryDto) {
+        
+        return insert("delivery", userDeliveryDto);
     }
 }

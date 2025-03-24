@@ -2,15 +2,34 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 
-<mapper namespace="com.kmj.apiProject.user.dao.UserMapper">
+<mapper namespace="com.kmj.apiProject.user.dao.mapper.UserMapper">
 
 	<select id="userDetail"
-		parameterType="string"
+		parameterType="int"
 		resultType="com.kmj.apiProject.auth.dto.AuthDto">
 		select email
 			   ,name
-			   ,phoneNum
+			   ,phone_num
 		from users
-		where id = #{id}
+		where user_id = #{userId}
 	</select>
+	
+	
+	<insert id="delivery"
+		parameterType="com.kmj.apiProject.user.dto.UserDeliveryDto">
+		insert
+		into user_delivery
+		(
+		user_id
+		,entry_method_id
+		,delivery_address
+		)
+		values
+		(
+		#{userId}
+		,#{entryMethodId}
+		,#{deliveryAddress}
+		)
+	</insert>
+	
 </mapper>
