@@ -4,4 +4,13 @@
 
 <mapper namespace="com.kmj.apiProject.user.dao.UserMapper">
 
+	<select id="userDetail"
+		parameterType="string"
+		resultType="com.kmj.apiProject.auth.dto.AuthDto">
+		select email
+			   ,name
+			   ,phoneNum
+		from users
+		where id = #{id}
+	</select>
 </mapper>

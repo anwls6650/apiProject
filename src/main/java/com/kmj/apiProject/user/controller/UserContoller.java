@@ -2,6 +2,9 @@ package com.kmj.apiProject.user.controller;
 
 import java.util.Map;
 import com.kmj.apiProject.user.service.UserService;
+
+import jakarta.websocket.server.PathParam;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,14 +31,33 @@ public class UserContoller {
 	UserService userService;
 
 
+	/**
+	 * 회원 정보 API
+	 * @param authDto
+	 */
+	@PostMapping("/{id}")
+	@ResponseBody
+	public Map<Object, Object> userDetail(@PathParam("id") String id) {
 
-//	@PostMapping("")
+		logger.info("/kmj/user/userDetail : {}", id);
+
+		return userService.userDetail(id);
+
+	}
+	
+	
+//	/**
+//	 * 배송지 등록
+//	 * @param authDto
+//	 */
+//	@PostMapping("/delivery")
 //	@ResponseBody
-//	public Map<Object, Object> signUp(@RequestBody AuthDto loginDto) {
-
-//		logger.info("/kmj/user : {}", loginDto);
-
-//		return userService;
-
+//	public Map<Object, Object> delivery(@RequestBody AuthDto authDto) {
+//
+//		logger.info("/kmj/user/delivery : {}", authDto);
+//
+//		return userService.delivery(authDto);
+//
 //	}
+
 }
