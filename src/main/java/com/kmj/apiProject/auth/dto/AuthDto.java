@@ -14,5 +14,7 @@ public class AuthDto {
 	private String updatedAt; 
 	private String role; 
 	private String phoneNum;
+	private int userId;
+	private String address;
 
 }

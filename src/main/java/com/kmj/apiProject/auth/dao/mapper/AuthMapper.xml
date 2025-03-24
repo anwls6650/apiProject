@@ -4,6 +4,8 @@
 
 <mapper
 	namespace="com.kmj.apiProject.auth.dao.mapper.AuthMapper">
+	
+	
 
 	<select id="userDetail"
 		parameterType="com.kmj.apiProject.auth.dto.AuthDto"
@@ -24,6 +26,9 @@
 		,password
 		,email
 		,phone_num
+		<if test="address != null and !address.equals('')">
+		,address
+		</if>
 		)
 		values
 		(
@@ -32,6 +37,9 @@
 		,#{password}
 		,#{email}
 		,#{phoneNum}
+		<if test="address != null and !address.equals('')">
+		,#{address}
+		</if>
 		)
 	</insert>
 

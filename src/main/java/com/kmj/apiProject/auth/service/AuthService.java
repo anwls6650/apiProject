@@ -40,7 +40,7 @@ public class AuthService {
 		try {
 			AuthDto userDetail = loginDao.userDetail(authDto);
 
-			if (userDetail == null) {
+			if (userDetail != null) {
 				response.putAll(ErrorCode.USER_ALREADY_EXISTS.toMap());
 				return response;
 			}
@@ -52,8 +52,10 @@ public class AuthService {
 			authDto.setPassword(encryptedPassword);
 
 			loginDao.signUp(authDto);
+			
+			AuthDto userDetailR2 = loginDao.userDetail(authDto);
 
-			String token = jwtUtil.createToken(authDto.getId(), authDto.getName());
+			String token = jwtUtil.createToken(authDto.getId(), authDto.getName(),userDetailR2.getUserId());
 
 			response.putAll(ErrorCode.SUCCESS.toMap());
 			response.put("token", token);
@@ -88,8 +90,9 @@ public class AuthService {
 				return response;
 			}
 
-			// 토큰
-			String token = jwtUtil.createToken(authDto.getId(), userDetail.getName());
+			AuthDto userDetailR2 = loginDao.userDetail(authDto);
+
+			String token = jwtUtil.createToken(authDto.getId(), authDto.getName(),userDetailR2.getUserId());
 
 			response.putAll(ErrorCode.SUCCESS.toMap());
 			response.put("token", token);
@@ -114,7 +117,7 @@ public class AuthService {
 			}
 
 			// 토큰에서 userId 추출
-			String userId = jwtUtil.extractUserId(token);
+			int userId = jwtUtil.extractUserId(token);
 
 			// 토큰 유효성 검사 (만료된 토큰인지 검증)
 			boolean isValidToken = jwtUtil.validateToken(token,userId);
@@ -134,7 +137,7 @@ public class AuthService {
 		return response;
 	}
 
-	private String extractToken(HttpServletRequest request) {
+	public String extractToken(HttpServletRequest request) {
 		// Authorization 헤더에서 "Bearer <token>" 형식으로 토큰을 추출
 		String header = request.getHeader("Authorization");
 		if (header != null && header.startsWith("Bearer ")) {
