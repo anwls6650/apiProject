@@ -3,6 +3,7 @@ package com.kmj.apiProject.user.controller;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.kmj.apiProject.user.dto.EntryMethodsDto;
 import com.kmj.apiProject.user.dto.UserDeliveryDto;
 import com.kmj.apiProject.user.service.UserService;
 
@@ -37,14 +38,12 @@ public class UserContoller {
 
 	@Autowired
 	UserService userService;
-	
+
 	@Autowired
 	private JwtUtil jwtUtil;
-	
+
 	@Autowired
 	private AuthService authService;
-	
-
 
 	/**
 	 * 회원 정보 API
@@ -54,19 +53,19 @@ public class UserContoller {
 	@GetMapping("/userDetail")
 	@ResponseBody
 	public Map<Object, Object> userDetail(HttpServletRequest request) {
-		
+
 		Map<Object, Object> response = new HashMap<Object, Object>();
 		response.putAll(ErrorCode.UNAUTHORIZED.toMap());
 		// 토큰 추출
 		String token = authService.extractToken(request);
-		
-		if(UtilsConfig.isNullOrEmpty(token)) {
+
+		if (UtilsConfig.isNullOrEmpty(token)) {
 			return response;
 		}
-		
+
 		// 토큰에서 userId 추출
 		int userId = jwtUtil.extractUserId(token);
-		
+
 		logger.info("/kmj/user/userDetail : {}", userId);
 
 		return userService.userDetail(userId);
@@ -81,27 +80,52 @@ public class UserContoller {
 	@PostMapping("/delivery")
 	@ResponseBody
 	public Map<Object, Object> delivery(@RequestBody UserDeliveryDto userDeliveryDto) {
-		
+
 		Map<Object, Object> response = new HashMap<Object, Object>();
 		response.putAll(ErrorCode.UNAUTHORIZED.toMap());
-		// 토큰 추출
-		
-		 // SecurityContextHolder에서 인증 정보를 가져옵니다.
-	    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+		// SecurityContextHolder에서 인증 정보를 가져옵니다.
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		String token = (String) authentication.getPrincipal();
-		
-		if(UtilsConfig.isNullOrEmpty(token)) {
+
+		if (UtilsConfig.isNullOrEmpty(token)) {
 			return response;
 		}
-		
+
 		// 토큰에서 userId 추출
 		int userId = jwtUtil.extractUserId(token);
-		
+
 		userDeliveryDto.setUserId(userId);
 
 		logger.info("/kmj/user/delivery : {}", userDeliveryDto);
 
 		return userService.delivery(userDeliveryDto);
+
+	}
+
+	/**
+	 * 출입방법 리스트
+	 * 
+	 * @param entryMethodsDto
+	 */
+	@GetMapping("/access")
+	@ResponseBody
+	public Map<Object, Object> access(@RequestBody EntryMethodsDto entryMethodsDto) {
+
+		Map<Object, Object> response = new HashMap<Object, Object>();
+		response.putAll(ErrorCode.UNAUTHORIZED.toMap());
+
+		// SecurityContextHolder에서 인증 정보를 가져옵니다.
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		String token = (String) authentication.getPrincipal();
+
+		if (UtilsConfig.isNullOrEmpty(token)) {
+			return response;
+		}
+
+		logger.info("/kmj/user/access : {}", entryMethodsDto);
+
+		return userService.access(entryMethodsDto);
 
 	}
 

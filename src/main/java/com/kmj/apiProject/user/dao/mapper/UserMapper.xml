@@ -32,4 +32,9 @@
 		)
 	</insert>
 	
+	<select id="access" resultType="com.kmj.apiProject.user.dto.EntryMethodsDto">
+		select *
+		from entry_methods
+	</select>
+	
 </mapper>
