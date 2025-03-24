@@ -42,7 +42,8 @@ dependencies {
     // Spring Security (for JWT)
     implementation 'org.springframework.boot:spring-boot-starter-security'
     
-	implementation 'io.jsonwebtoken:jjwt-api:0.11.5'  // API
+    // JWT 관련 라이브러리
+    implementation 'io.jsonwebtoken:jjwt-api:0.11.5'  // API
     implementation 'io.jsonwebtoken:jjwt-impl:0.11.5'  // 구현
     implementation 'io.jsonwebtoken:jjwt-orgjson:0.11.5'  // org.json 라이브러리 필요시
     
@@ -53,10 +54,6 @@ dependencies {
     
     // Jakarta Servlet 의존성 추가 (Spring Boot 3.x 이상에서 필요)
     implementation 'jakarta.servlet:jakarta.servlet-api:6.0.0'  // Spring Boot 3.x에서 사용
-    
-    implementation 'javax.servlet:javax.servlet-api:4.0.1'  // Servlet API 의존성 추가
-    
-    implementation 'jakarta.servlet:jakarta.servlet-api:6.0.0'  // Jakarta Servlet API 의존성 추가
 }
 
 tasks.named('test') {
