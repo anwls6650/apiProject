@@ -30,21 +30,21 @@ public class AuthController {
 
 	@PostMapping("/signUp")
 	@ResponseBody
-	public Map<Object, Object> signUp(@RequestBody AuthDto loginDto) {
+	public Map<Object, Object> signUp(@RequestBody AuthDto authDto) {
 
-		logger.info("/kmj/signUp : {}", loginDto);
+		logger.info("/kmj/signUp : {}", authDto);
 
-		return loginService.signUp(loginDto);
+		return loginService.signUp(authDto);
 
 	}
 
 	@PostMapping("/login")
 	@ResponseBody
-	public Map<Object, Object> login(@RequestBody AuthDto loginDto) {
+	public Map<Object, Object> login(@RequestBody AuthDto authDto) {
 
-		logger.info("/kmj/login : {}", loginDto);
+		logger.info("/kmj/login : {}", authDto);
 
-		return loginService.login(loginDto);
+		return loginService.login(authDto);
 
 	}
 	

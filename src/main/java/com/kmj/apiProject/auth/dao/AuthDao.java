@@ -19,15 +19,15 @@ public class AuthDao extends BaseDao {
     }
 
     // id로 사용자 정보 조회
-    public AuthDto userDetail(AuthDto loginDto) {
+    public AuthDto userDetail(AuthDto authDto) {
         
-        return selectOne("userDetail", loginDto);
+        return selectOne("userDetail", authDto);
     }
     
  	// 회원가입
-    public int signUp(AuthDto loginDto) {
+    public int signUp(AuthDto authDto) {
         
-        return insert("signUp", loginDto);
+        return insert("signUp", authDto);
     }
     
 }

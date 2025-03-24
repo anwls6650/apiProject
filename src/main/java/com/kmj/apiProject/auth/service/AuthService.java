@@ -27,18 +27,18 @@ public class AuthService {
 	@Autowired
 	private JwtUtil jwtUtil;
 
-	public Map<Object, Object> signUp(AuthDto loginDto) {
+	public Map<Object, Object> signUp(AuthDto authDto) {
 		Map<Object, Object> response = new HashMap<Object, Object>();
 		response.putAll(ErrorCode.FAIL.toMap());
 
-		if (UtilsConfig.isNullOrEmpty(loginDto.getId()) || UtilsConfig.isNullOrEmpty(loginDto.getPhoneNum())
-				|| UtilsConfig.isNullOrEmpty(loginDto.getName()) || UtilsConfig.isNullOrEmpty(loginDto.getPassword())) {
+		if (UtilsConfig.isNullOrEmpty(authDto.getId()) || UtilsConfig.isNullOrEmpty(authDto.getPhoneNum())
+				|| UtilsConfig.isNullOrEmpty(authDto.getName()) || UtilsConfig.isNullOrEmpty(authDto.getPassword())) {
 			response.putAll(ErrorCode.PARAMETER_FAIL.toMap());
 			return response;
 		}
 
 		try {
-			AuthDto userDetail = loginDao.userDetail(loginDto);
+			AuthDto userDetail = loginDao.userDetail(authDto);
 
 			if (userDetail == null) {
 				response.putAll(ErrorCode.USER_ALREADY_EXISTS.toMap());
@@ -46,14 +46,14 @@ public class AuthService {
 			}
 
 			// 비밀번호 암호화
-			String encryptedPassword = passwordEncoder.encode(loginDto.getPassword());
+			String encryptedPassword = passwordEncoder.encode(authDto.getPassword());
 
 			// 암호화된 비밀번호를 User 객체에 설정
-			loginDto.setPassword(encryptedPassword);
+			authDto.setPassword(encryptedPassword);
 
-			loginDao.signUp(loginDto);
+			loginDao.signUp(authDto);
 
-			String token = jwtUtil.createToken(loginDto.getId(), loginDto.getName());
+			String token = jwtUtil.createToken(authDto.getId(), authDto.getName());
 
 			response.putAll(ErrorCode.SUCCESS.toMap());
 			response.put("token", token);
@@ -64,17 +64,17 @@ public class AuthService {
 		return response;
 	}
 
-	public Map<Object, Object> login(AuthDto loginDto) {
+	public Map<Object, Object> login(AuthDto authDto) {
 		Map<Object, Object> response = new HashMap<Object, Object>();
 		response.putAll(ErrorCode.FAIL.toMap());
 
-		if (UtilsConfig.isNullOrEmpty(loginDto.getId()) || UtilsConfig.isNullOrEmpty(loginDto.getPassword())) {
+		if (UtilsConfig.isNullOrEmpty(authDto.getId()) || UtilsConfig.isNullOrEmpty(authDto.getPassword())) {
 			response.putAll(ErrorCode.PARAMETER_FAIL.toMap());
 			return response;
 		}
 
 		try {
-			AuthDto userDetail = loginDao.userDetail(loginDto);
+			AuthDto userDetail = loginDao.userDetail(authDto);
 
 			// 사용자 확인
 			if (userDetail == null) {
@@ -83,13 +83,13 @@ public class AuthService {
 			}
 
 			// 비밀번호 확인
-			if (!passwordEncoder.matches(loginDto.getPassword(), userDetail.getPassword())) {
+			if (!passwordEncoder.matches(authDto.getPassword(), userDetail.getPassword())) {
 				response.putAll(ErrorCode.LOGIN_FAILED.toMap());
 				return response;
 			}
 
 			// 토큰
-			String token = jwtUtil.createToken(loginDto.getId(), userDetail.getName());
+			String token = jwtUtil.createToken(authDto.getId(), userDetail.getName());
 
 			response.putAll(ErrorCode.SUCCESS.toMap());
 			response.put("token", token);
