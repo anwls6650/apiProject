@@ -28,9 +28,8 @@ public class AuthService {
 	@Autowired
 	private JwtUtil jwtUtil;
 
-	
 	/**
-	 * 유저 회원가입 
+	 * 유저 회원가입
 	 * 
 	 * @param authDto
 	 */
@@ -59,10 +58,10 @@ public class AuthService {
 			authDto.setPassword(encryptedPassword);
 
 			authDao.signUp(authDto);
-			
+
 			AuthDto userDetailR2 = authDao.userDetail(authDto);
 
-			String token = jwtUtil.createToken(authDto.getId(), authDto.getName(),userDetailR2.getUserId());
+			String token = jwtUtil.createToken(authDto.getId(), authDto.getName(), userDetailR2.getUserId());
 
 			response.putAll(ErrorCode.SUCCESS.toMap());
 			response.put("token", token);
@@ -72,14 +71,19 @@ public class AuthService {
 
 		return response;
 	}
-	
-	
+
+	/**
+	 * 기사 회원가입
+	 * 
+	 * @param driverDto
+	 */
 	public Map<Object, Object> driverSignUp(DriverDto driverDto) {
 		Map<Object, Object> response = new HashMap<Object, Object>();
 		response.putAll(ErrorCode.FAIL.toMap());
 
 		if (UtilsConfig.isNullOrEmpty(driverDto.getId()) || UtilsConfig.isNullOrEmpty(driverDto.getPhoneNum())
-				|| UtilsConfig.isNullOrEmpty(driverDto.getName()) || UtilsConfig.isNullOrEmpty(driverDto.getPassword())) {
+				|| UtilsConfig.isNullOrEmpty(driverDto.getName())
+				|| UtilsConfig.isNullOrEmpty(driverDto.getPassword())) {
 			response.putAll(ErrorCode.PARAMETER_FAIL.toMap());
 			return response;
 		}
@@ -99,10 +103,11 @@ public class AuthService {
 			driverDto.setPassword(encryptedPassword);
 
 			authDao.driverSignUp(driverDto);
-			
+
 			DriverDto driverDetailR2 = authDao.driverDetail(driverDto);
 
-			String token = jwtUtil.createToken(driverDetailR2.getId(), driverDetailR2.getName(),driverDetailR2.getDriverId());
+			String token = jwtUtil.createToken(driverDetailR2.getId(), driverDetailR2.getName(),
+					driverDetailR2.getDriverId());
 
 			response.putAll(ErrorCode.SUCCESS.toMap());
 			response.put("token", token);
@@ -113,6 +118,11 @@ public class AuthService {
 		return response;
 	}
 
+	/**
+	 * 로그인
+	 * 
+	 * @param authDto
+	 */
 	public Map<Object, Object> login(AuthDto authDto) {
 		Map<Object, Object> response = new HashMap<Object, Object>();
 		response.putAll(ErrorCode.FAIL.toMap());
@@ -139,7 +149,7 @@ public class AuthService {
 
 			AuthDto userDetailR2 = authDao.userDetail(authDto);
 
-			String token = jwtUtil.createToken(authDto.getId(), authDto.getName(),userDetailR2.getUserId());
+			String token = jwtUtil.createToken(authDto.getId(), authDto.getName(), userDetailR2.getUserId());
 
 			response.putAll(ErrorCode.SUCCESS.toMap());
 			response.put("token", token);
@@ -150,6 +160,11 @@ public class AuthService {
 		return response;
 	}
 
+	/**
+	 * 로그아웃
+	 * 
+	 * @param
+	 */
 	public Map<Object, Object> logout(HttpServletRequest request) {
 		Map<Object, Object> response = new HashMap<>();
 		response.putAll(ErrorCode.FAIL.toMap());
@@ -167,13 +182,12 @@ public class AuthService {
 			int userId = jwtUtil.extractUserId(token);
 
 			// 토큰 유효성 검사 (만료된 토큰인지 검증)
-			boolean isValidToken = jwtUtil.validateToken(token,userId);
+			boolean isValidToken = jwtUtil.validateToken(token, userId);
 
 			if (!isValidToken) {
 				response.putAll(ErrorCode.INVALID_REQUEST.toMap());
 				return response;
 			}
-
 
 			response.putAll(ErrorCode.SUCCESS.toMap());
 		} catch (Exception e) {

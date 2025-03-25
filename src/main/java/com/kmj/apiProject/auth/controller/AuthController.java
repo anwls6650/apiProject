@@ -29,9 +29,8 @@ public class AuthController {
 	@Autowired
 	AuthService loginService;
 
-	
 	/**
-	 * 유저 회원가입 
+	 * 유저 회원가입
 	 * 
 	 * @param authDto
 	 */
@@ -44,12 +43,11 @@ public class AuthController {
 		return loginService.signUp(authDto);
 
 	}
-	
-	
+
 	/**
-	 * 기사 회원가입 
+	 * 기사 회원가입
 	 * 
-	 * @param authDto
+	 * @param driverDto
 	 */
 	@PostMapping("/driver/signUp")
 	@ResponseBody
@@ -61,6 +59,11 @@ public class AuthController {
 
 	}
 
+	/**
+	 * 로그인
+	 * 
+	 * @param authDto
+	 */
 	@PostMapping("/login")
 	@ResponseBody
 	public Map<Object, Object> login(@RequestBody AuthDto authDto) {
@@ -70,7 +73,12 @@ public class AuthController {
 		return loginService.login(authDto);
 
 	}
-	
+
+	/**
+	 * 로그아웃
+	 * 
+	 * @param
+	 */
 	@PostMapping("/logout")
 	public Map<Object, Object> logout(HttpServletRequest request) {
 
