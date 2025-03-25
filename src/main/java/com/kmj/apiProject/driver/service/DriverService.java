@@ -41,10 +41,14 @@ public class DriverService {
 
 		try {
 
-			 // 위치 데이터를 JSON 형식으로 직렬화
+			// 기존에 있던 키 삭제
+	        String driverLocationKey = DRIVER_LOCATION_KEY + driverDto.getDriverId();
+	        redisTemplate.delete(driverLocationKey);
+			
+			 // JSON 형식
             String jsonLocation = objectMapper.writeValueAsString(driverDto);
 
-            // Redis에 저장 (드라이버 위치 저장)
+            // Redis에 저장 
             redisTemplate.opsForValue().set(DRIVER_LOCATION_KEY+driverDto.getDriverId(), jsonLocation);
 
 			response.putAll(ErrorCode.SUCCESS.toMap());
