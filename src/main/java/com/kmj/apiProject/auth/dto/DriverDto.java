@@ -13,5 +13,7 @@ public class DriverDto {
 	private String createdAt; // 등록일
 	private String password; // 비밀번호
 	private String id; // 로그인 ID
+	private Double  px; // 경도
+	private Double  py; // 위도
 
 }
