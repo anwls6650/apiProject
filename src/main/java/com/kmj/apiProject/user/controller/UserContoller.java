@@ -52,19 +52,10 @@ public class UserContoller {
 	 */
 	@GetMapping("/userDetail")
 	@ResponseBody
-	public Map<Object, Object> userDetail(HttpServletRequest request) {
+	public Map<Object, Object> userDetail() {
 
-		Map<Object, Object> response = new HashMap<Object, Object>();
-		response.putAll(ErrorCode.UNAUTHORIZED.toMap());
-		// 토큰 추출
-		String token = authService.extractToken(request);
-
-		if (UtilsConfig.isNullOrEmpty(token)) {
-			return response;
-		}
-
-		// 토큰에서 userId 추출
-		int userId = jwtUtil.extractUserId(token);
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		int userId = (Integer) authentication.getPrincipal(); // 이미 필터에서 설정된 사용자 ID
 
 		logger.info("/kmj/user/userDetail : {}", userId);
 
@@ -81,19 +72,8 @@ public class UserContoller {
 	@ResponseBody
 	public Map<Object, Object> delivery(@RequestBody UserDeliveryDto userDeliveryDto) {
 
-		Map<Object, Object> response = new HashMap<Object, Object>();
-		response.putAll(ErrorCode.UNAUTHORIZED.toMap());
-
-		// SecurityContextHolder에서 인증 정보를 가져옵니다.
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		String token = (String) authentication.getPrincipal();
-
-		if (UtilsConfig.isNullOrEmpty(token)) {
-			return response;
-		}
-
-		// 토큰에서 userId 추출
-		int userId = jwtUtil.extractUserId(token);
+		int userId = (Integer) authentication.getPrincipal(); // 이미 필터에서 설정된 사용자 ID
 
 		userDeliveryDto.setUserId(userId);
 
@@ -111,17 +91,6 @@ public class UserContoller {
 	@GetMapping("/access")
 	@ResponseBody
 	public Map<Object, Object> access(@RequestBody EntryMethodsDto entryMethodsDto) {
-
-		Map<Object, Object> response = new HashMap<Object, Object>();
-		response.putAll(ErrorCode.UNAUTHORIZED.toMap());
-
-		// SecurityContextHolder에서 인증 정보를 가져옵니다.
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		String token = (String) authentication.getPrincipal();
-
-		if (UtilsConfig.isNullOrEmpty(token)) {
-			return response;
-		}
 
 		logger.info("/kmj/user/access : {}", entryMethodsDto);
 
