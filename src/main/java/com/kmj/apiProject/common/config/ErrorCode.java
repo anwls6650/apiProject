@@ -28,7 +28,9 @@ public enum ErrorCode {
     // 데이터베이스 관련 오류 코드
     DUPLICATE_DATA("D0003", "중복된 데이터입니다."),
     
-    USER_NOT_FOUND("U0002", "존재하지 않는 사용자입니다.");
+    USER_NOT_FOUND("U0002", "존재하지 않는 사용자입니다."),
+    
+    INVALID_TOKEN("T0001", "토큰이 유효하지 않습니다.");
 	
 
 
