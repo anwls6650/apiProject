@@ -38,7 +38,7 @@ public class SecurityConfig {
             .and()
             .csrf().disable()  // CSRF 보호 비활성화
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/kmj/auth/**/signUp", "/kmj/auth/login").permitAll()  // 회원가입 엔드포인트 허용
+                .requestMatchers("/kmj/auth/user/signUp","/kmj/auth/driver/signUp", "/kmj/auth/login").permitAll()  // 회원가입 엔드포인트 허용
                 .anyRequest().authenticated()  // 나머지 요청은 인증 필요
             )
             .formLogin(form -> form.disable())  // 기본 로그인 폼 비활성화
