@@ -58,5 +58,26 @@ public class DriverController {
 		return driverService.location(driverDto);
 
 	}
+	
+	/**
+	 * 기사 상태 변경
+	 * 
+	 * @param DriverDto
+	 */
+	@PostMapping("/status")
+	@ResponseBody
+	public Map<Object, Object> status(@RequestBody DriverDto driverDto) {
+		
+
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+	    int driverId = (Integer) authentication.getPrincipal();  // 이미 필터에서 설정된 사용자 ID
+
+		driverDto.setDriverId(driverId);
+
+		logger.info("/kmj/driver/status : {}", driverDto);
+
+		return driverService.status(driverDto);
+
+	}
 
 }

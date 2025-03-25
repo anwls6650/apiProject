@@ -2,7 +2,14 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 
-<mapper namespace="com.kmj.apiProject.driver.dao.mapper.DriverMapper">
+<mapper
+	namespace="com.kmj.apiProject.driver.dao.mapper.DriverMapper">
 
+	<update id="status"
+		parameterType="com.kmj.apiProject.auth.dto.DriverDto">
+		update drivers
+		set status = #{status}
+		where driver_id = #{driverId}
+	</update>
 
 </mapper>
