@@ -2,6 +2,45 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 
-<mapper namespace="com.kmj.apiProject.order.dao.mapper.OrderMapper">
+<mapper
+	namespace="com.kmj.apiProject.order.dao.mapper.OrderMapper">
+
+	<insert id="order"
+		parameterType="com.kmj.apiProject.order.dto.OrderDto"
+		useGeneratedKeys="true" keyProperty="orderId">
+		insert
+		into orders
+		{
+		user_id
+		,total_price
+		}
+		values
+		{
+		#{userId}
+		,#{totalPrice}
+		}
+
+	</insert>
+
+	<insert id="item"
+		parameterType="com.kmj.apiProject.order.dto.ItemDto">
+		insert
+		into items
+		{
+		order_id
+		,item_name
+		,item_cnt
+		,#{price}
+		}
+		values
+		{
+		#{orderId}
+		,#{itemName}
+		,#{itemCnt}
+		,#{price}
+		}
+
+	</insert>
+
 
 </mapper>
