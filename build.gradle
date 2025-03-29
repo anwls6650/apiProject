@@ -59,6 +59,8 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-redis'
     
     implementation 'com.rabbitmq:amqp-client:5.16.0'  // rabbitMq
+    
+    implementation 'org.springframework.boot:spring-boot-starter-amqp:2.7.15'
 
 }
 
