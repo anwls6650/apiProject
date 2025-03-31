@@ -20,6 +20,7 @@ import com.kmj.apiProject.auth.service.AuthService;
 import com.kmj.apiProject.common.config.ErrorCode;
 import com.kmj.apiProject.common.config.UtilsConfig;
 import com.kmj.apiProject.common.security.JwtUtil;
+import com.kmj.apiProject.common.service.DriverMessageProducer;
 import com.kmj.apiProject.driver.service.DriverService;
 
 @Controller
@@ -31,12 +32,16 @@ public class DriverController {
 
 	@Autowired
 	DriverService driverService;
-	
+
 	@Autowired
 	AuthService authService;
-	
+
 	@Autowired
 	JwtUtil jwtUtil;
+
+	// 기사 rabbitMq 테스트
+	@Autowired
+	private DriverMessageProducer driverMessageProducer;
 
 	/**
 	 * 기사 위치 저장
@@ -46,10 +51,9 @@ public class DriverController {
 	@PostMapping("/location")
 	@ResponseBody
 	public Map<Object, Object> location(@RequestBody DriverDto driverDto) {
-		
 
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-	    int driverId = (Integer) authentication.getPrincipal();  // 이미 필터에서 설정된 사용자 ID
+		int driverId = (Integer) authentication.getPrincipal(); // 이미 필터에서 설정된 사용자 ID
 
 		driverDto.setDriverId(driverId);
 
@@ -58,7 +62,7 @@ public class DriverController {
 		return driverService.location(driverDto);
 
 	}
-	
+
 	/**
 	 * 기사 상태 변경
 	 * 
@@ -67,10 +71,9 @@ public class DriverController {
 	@PostMapping("/status")
 	@ResponseBody
 	public Map<Object, Object> status(@RequestBody DriverDto driverDto) {
-		
 
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-	    int driverId = (Integer) authentication.getPrincipal();  // 이미 필터에서 설정된 사용자 ID
+		int driverId = (Integer) authentication.getPrincipal(); // 이미 필터에서 설정된 사용자 ID
 
 		driverDto.setDriverId(driverId);
 
@@ -79,5 +82,18 @@ public class DriverController {
 		return driverService.status(driverDto);
 
 	}
+	
+	
+	/**
+	 * 기사 위치정보 test
+	 * 
+	 * @param DriverDto
+	 */
+	@PostMapping("/sendDriverLocation")
+	@ResponseBody
+    public String sendDriverLocation(@RequestBody DriverDto driverDto) {
+        driverMessageProducer.sendMessage(driverDto);
+        return "Driver location sent to RabbitMQ!";
+    }
 
 }

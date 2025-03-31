@@ -11,5 +11,14 @@
 		set status = #{status}
 		where driver_id = #{driverId}
 	</update>
+	
+	<update id="updateDriverLocation"
+		parameterType="com.kmj.apiProject.auth.dto.DriverDto">
+		update drivers
+		set px = #{px}
+			,py = #{py}
+		where driver_id = #{driverId}
+	</update>
+	
 
 </mapper>
