@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import jakarta.servlet.Filter;  // ✅ javax.servlet → jakarta.servlet 변경
+import jakarta.servlet.Filter;  
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.FilterConfig;
 import jakarta.servlet.ServletException;
@@ -31,6 +31,13 @@ public class JwtFilter implements Filter {
     @Autowired
     private JwtUtil jwtUtil;
 
+    // 인증을 건너뛰어야 할 URL 목록
+    private static final String[] EXCLUDED_PATHS = {
+        "/kmj/auth/user/signUp",
+        "/kmj/auth/driver/signUp",
+        "/kmj/auth/login"
+    };
+
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {}
 
@@ -39,6 +46,15 @@ public class JwtFilter implements Filter {
             throws IOException, ServletException {
         HttpServletRequest httpRequest = (HttpServletRequest) request;
         HttpServletResponse httpResponse = (HttpServletResponse) response;  // HttpServletResponse 추가
+
+        String uri = httpRequest.getRequestURI();
+
+        // 인증을 건너뛰어야 할 경로인지 체크
+        if (shouldSkipAuthentication(uri)) {
+            chain.doFilter(request, response);  // 인증을 건너뛰고 필터 체인 진행
+            return;
+        }
+
         String token = httpRequest.getHeader("Authorization");
 
         if (token != null && token.startsWith("Bearer ")) {
@@ -75,7 +91,6 @@ public class JwtFilter implements Filter {
                 // 예외가 발생하면 401 Unauthorized 응답
                 logger.error("Error during token validation", e);
                 sendJsonErrorResponse(httpResponse, ErrorCode.INVALID_TOKEN);
-    
             }
         } else {
             // Authorization 헤더가 없거나 잘못된 형식일 경우 401 Unauthorized 응답
@@ -83,13 +98,21 @@ public class JwtFilter implements Filter {
             sendJsonErrorResponse(httpResponse, ErrorCode.INVALID_TOKEN);
         }
     }
-    
-    
-    
+
+    // 인증을 건너뛰어야 할 URL인지 확인하는 메소드
+    private boolean shouldSkipAuthentication(String uri) {
+        for (String excludedPath : EXCLUDED_PATHS) {
+            if (uri.startsWith(excludedPath)) {
+                return true;  // 인증을 건너뛰어야 하는 경로
+            }
+        }
+        return false;  // 인증을 해야하는 경로
+    }
+
     private void sendJsonErrorResponse(HttpServletResponse response, ErrorCode errorCode) throws IOException {
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         response.setContentType("application/json");
-        response.setCharacterEncoding("UTF-8");  // ✅ UTF-8 설정 추가
+        response.setCharacterEncoding("UTF-8");  // UTF-8 설정 추가
 
         // ErrorCode를 Map으로 변환 후 JSON 변환
         Map<Object, Object> errorResponse = new HashMap<>();
@@ -98,7 +121,7 @@ public class JwtFilter implements Filter {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.writeValue(response.getWriter(), errorResponse);
     }
-    
+
     @Override
     public void destroy() {}
 }

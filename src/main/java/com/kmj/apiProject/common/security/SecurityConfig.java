@@ -43,7 +43,7 @@ public class SecurityConfig {
             )
             .formLogin(form -> form.disable())  // 기본 로그인 폼 비활성화
             .httpBasic(httpBasic -> httpBasic.disable())
-            .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class); // ✅ JwtFilter 등록
+            .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class); // JwtFilter 등록
 
         return http.build();
     }
