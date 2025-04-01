@@ -5,7 +5,7 @@
 <mapper
 	namespace="com.kmj.apiProject.order.dao.mapper.OrderMapper">
 
-	<insert id="order"
+	<insert id="receipt"
 		parameterType="com.kmj.apiProject.order.dto.OrderDto"
 		useGeneratedKeys="true" keyProperty="orderId">
 		insert
@@ -41,6 +41,20 @@
 		}
 
 	</insert>
+
+	<select id="orderDetail"
+		parameterType="com.kmj.apiProject.order.dto.OrderDto"
+		resultType="com.kmj.apiProject.order.dto.DeliveryDto">
+		select * from delivery
+		where order_id = #{orderId}
+	</select>
+
+	<select id="driverLocation"
+		parameterType="com.kmj.apiProject.order.dto.DeliveryDto"
+		resultType="com.kmj.apiProject.auth.dto.DriverDto">
+		select * from drivers
+		where driver_id = #{driverId}
+	</select>
 
 
 </mapper>

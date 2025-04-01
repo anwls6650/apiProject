@@ -25,29 +25,47 @@ public class OrderController {
 
 	// SLF4J Logger 생성
 	private static final Logger logger = LoggerFactory.getLogger(AuthController.class);
-	
+
 	@Autowired
 	OrderService orderService;
-	
 
 	/**
 	 * 주문 신청
 	 * 
 	 * @param OrderDto
 	 */
-	@PostMapping("/order")
+	@PostMapping("/receipt")
 	@ResponseBody
-	public Map<Object, Object> order(@RequestBody OrderDto orderDto) {
-		
+	public Map<Object, Object> receipt(@RequestBody OrderDto orderDto) {
 
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-	    int userId = (Integer) authentication.getPrincipal();  // 이미 필터에서 설정된 사용자 ID
+		int userId = (Integer) authentication.getPrincipal(); // 이미 필터에서 설정된 사용자 ID
 
-	    orderDto.setUserId(userId);
+		orderDto.setUserId(userId);
 
-		logger.info("/kmj/order/order : {}", orderDto);
+		logger.info("/kmj/order/receipt : {}", orderDto);
 
-		return orderService.order(orderDto);
+		return orderService.receipt(orderDto);
+
+	}
+
+	/**
+	 * 주문 기사 위치 정보
+	 * 
+	 * @param orderDto
+	 */
+	@PostMapping("/location")
+	@ResponseBody
+	public Map<Object, Object> orderDriverLocation(@RequestBody OrderDto orderDto) {
+
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		int userId = (Integer) authentication.getPrincipal(); // 이미 필터에서 설정된 사용자 ID
+
+		orderDto.setUserId(userId);
+
+		logger.info("/kmj/order/location : {}", orderDto);
+
+		return orderService.orderDriverLocation(orderDto);
 
 	}
 }

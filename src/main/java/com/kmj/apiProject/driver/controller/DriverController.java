@@ -20,7 +20,7 @@ import com.kmj.apiProject.auth.service.AuthService;
 import com.kmj.apiProject.common.config.ErrorCode;
 import com.kmj.apiProject.common.config.UtilsConfig;
 import com.kmj.apiProject.common.security.JwtUtil;
-import com.kmj.apiProject.common.service.DriverMessageProducer;
+import com.kmj.apiProject.common.service.DriverLocationProducer;
 import com.kmj.apiProject.driver.service.DriverService;
 
 @Controller
@@ -41,7 +41,7 @@ public class DriverController {
 
 	// 기사 rabbitMq 테스트
 	@Autowired
-	private DriverMessageProducer driverMessageProducer;
+	private DriverLocationProducer driverMessageProducer;
 
 	/**
 	 * 기사 위치 저장
@@ -82,8 +82,7 @@ public class DriverController {
 		return driverService.status(driverDto);
 
 	}
-	
-	
+
 	/**
 	 * 기사 위치정보 test
 	 * 
@@ -91,9 +90,9 @@ public class DriverController {
 	 */
 	@PostMapping("/sendDriverLocation")
 	@ResponseBody
-    public String sendDriverLocation(@RequestBody DriverDto driverDto) {
-        driverMessageProducer.sendMessage(driverDto);
-        return "Driver location sent to RabbitMQ!";
-    }
+	public String sendDriverLocation(@RequestBody DriverDto driverDto) {
+		driverMessageProducer.sendMessage(driverDto);
+		return "Driver location sent to RabbitMQ!";
+	}
 
 }
