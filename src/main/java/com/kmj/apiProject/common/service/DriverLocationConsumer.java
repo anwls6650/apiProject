@@ -10,7 +10,7 @@ import com.kmj.apiProject.auth.dto.DriverDto;
 import com.kmj.apiProject.driver.dao.DriverDao;
 
 @Service
-public class DriverMessageConsumer {
+public class DriverLocationConsumer {
 
     @Autowired
     private DriverDao driverDao;
@@ -22,7 +22,7 @@ public class DriverMessageConsumer {
     @RabbitListener(queues = "driver_queue")  // 큐 이름을 동적으로 설정
     public void receiveMessage(String message) {
         try {
-            System.out.println("Received message: " + message);
+            System.out.println("message: " + message);
 
             // 메시지에서 필요한 데이터 추출
             JsonNode jsonNode = objectMapper.readTree(message);
