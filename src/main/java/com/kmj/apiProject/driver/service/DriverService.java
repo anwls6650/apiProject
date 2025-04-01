@@ -29,35 +29,35 @@ public class DriverService {
     }
 	private static final String DRIVER_LOCATION_KEY = "driver:location";
 
-	/**
-	 * 기사 위치 저장
-	 * 
-	 * @param DriverDto
-	 */ 
-	public Map<Object, Object> location(DriverDto driverDto) {
-		Map<Object, Object> response = new HashMap<Object, Object>();
-		response.putAll(ErrorCode.FAIL.toMap());
-
-		try {
-
-			// 기존에 있던 키 삭제
-	        String driverLocationKey = DRIVER_LOCATION_KEY + driverDto.getDriverId();
-	        redisTemplate.delete(driverLocationKey);
-			
-			 // JSON 형식
-            String jsonLocation = objectMapper.writeValueAsString(driverDto);
-
-            // Redis에 저장 
-            redisTemplate.opsForValue().set(DRIVER_LOCATION_KEY+driverDto.getDriverId(), jsonLocation);
-
-			response.putAll(ErrorCode.SUCCESS.toMap());
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		return response;
-	}
+//	/**
+//	 * 기사 위치 저장
+//	 * 
+//	 * @param DriverDto
+//	 */ 
+//	public Map<Object, Object> location(DriverDto driverDto) {
+//		Map<Object, Object> response = new HashMap<Object, Object>();
+//		response.putAll(ErrorCode.FAIL.toMap());
+//
+//		try {
+//
+//			// 기존에 있던 키 삭제
+//	        String driverLocationKey = DRIVER_LOCATION_KEY + driverDto.getDriverId();
+//	        redisTemplate.delete(driverLocationKey);
+//			
+//			 // JSON 형식
+//            String jsonLocation = objectMapper.writeValueAsString(driverDto);
+//
+//            // Redis에 저장 
+//            redisTemplate.opsForValue().set(DRIVER_LOCATION_KEY+driverDto.getDriverId(), jsonLocation);
+//
+//			response.putAll(ErrorCode.SUCCESS.toMap());
+//
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//
+//		return response;
+//	}
 	
 	
 	/**

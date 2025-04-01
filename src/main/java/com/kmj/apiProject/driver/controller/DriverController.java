@@ -43,25 +43,25 @@ public class DriverController {
 	@Autowired
 	private DriverLocationProducer driverMessageProducer;
 
-	/**
-	 * 기사 위치 저장
-	 * 
-	 * @param DriverDto
-	 */
-	@PostMapping("/location")
-	@ResponseBody
-	public Map<Object, Object> location(@RequestBody DriverDto driverDto) {
-
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		int driverId = (Integer) authentication.getPrincipal(); // 이미 필터에서 설정된 사용자 ID
-
-		driverDto.setDriverId(driverId);
-
-		logger.info("/kmj/driver/location : {}", driverDto);
-
-		return driverService.location(driverDto);
-
-	}
+//	/**
+//	 * 기사 위치 저장
+//	 * 
+//	 * @param DriverDto
+//	 */
+//	@PostMapping("/location")
+//	@ResponseBody
+//	public Map<Object, Object> location(@RequestBody DriverDto driverDto) {
+//
+//		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//		int driverId = (Integer) authentication.getPrincipal(); // 이미 필터에서 설정된 사용자 ID
+//
+//		driverDto.setDriverId(driverId);
+//
+//		logger.info("/kmj/driver/location : {}", driverDto);
+//
+//		return driverService.location(driverDto);
+//
+//	}
 
 	/**
 	 * 기사 상태 변경

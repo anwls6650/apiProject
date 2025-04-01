@@ -4,8 +4,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kmj.apiProject.auth.dto.DriverDto;
 import com.kmj.apiProject.common.config.ErrorCode;
 import com.kmj.apiProject.common.config.UtilsConfig;
@@ -19,6 +21,12 @@ public class OrderService {
 
 	@Autowired
 	OrderDao orderDao;
+	
+	@Autowired
+    private RedisTemplate<String, String> redisTemplate;
+	
+	@Autowired
+    private ObjectMapper objectMapper;
 
 	/**
 	 * 주문 신청
@@ -60,13 +68,23 @@ public class OrderService {
 		response.putAll(ErrorCode.FAIL.toMap());
 
 		try {
-
+			// 주문 상세 정보 조회
 			DeliveryDto orderDetail = orderDao.orderDetail(orderDto);
 
-			DriverDto driverLocation = orderDao.driverLocation(orderDetail);
+			// Redis에서 기사 위치 정보 가져오기
+			String driverLocationKey = "driver:location" + orderDetail.getDriverId();
+			String driverLocationJson = redisTemplate.opsForValue().get(driverLocationKey);
 
-			response.putAll(ErrorCode.SUCCESS.toMap());
-			response.put("data", driverLocation);
+			if (driverLocationJson != null) {
+				
+				DriverDto driverLocation = objectMapper.readValue(driverLocationJson, DriverDto.class);
+
+				// 성공 응답에 기사 위치 정보 추가
+				response.putAll(ErrorCode.SUCCESS.toMap());
+				response.put("data", driverLocation);
+			} else {
+				System.out.println("기사 위치 정보를 찾을 수 없음.");
+			}
 
 		} catch (Exception e) {
 			e.printStackTrace();
