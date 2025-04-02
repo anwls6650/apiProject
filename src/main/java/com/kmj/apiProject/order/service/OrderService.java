@@ -47,7 +47,7 @@ public class OrderService {
 
 	        for (ItemDto item : orderDto.getItemList()) {
 	            item.setOrderId(receipt);
-	            orderDao.item(item);
+	            orderDao.item(item); 
 	        }
 
 	        response.putAll(ErrorCode.SUCCESS.toMap());
