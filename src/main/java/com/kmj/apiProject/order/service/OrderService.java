@@ -6,6 +6,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kmj.apiProject.auth.dto.DriverDto;
@@ -33,29 +34,29 @@ public class OrderService {
 	 * 
 	 * @param orderDto
 	 */
+	@Transactional
 	public Map<Object, Object> receipt(OrderDto orderDto) {
-		Map<Object, Object> response = new HashMap<Object, Object>();
-		response.putAll(ErrorCode.FAIL.toMap());
+	    Map<Object, Object> response = new HashMap<>();
+	    response.putAll(ErrorCode.FAIL.toMap());
 
-		try {
+	    try {
+	        int receipt = orderDao.receipt(orderDto);
+	        if (receipt <= 0) {  
+	            throw new RuntimeException("주문 생성 실패");
+	        }
 
-			int receipt = orderDao.receipt(orderDto);
-			if (receipt < 0) {
-				return response;
-			}
+	        for (ItemDto item : orderDto.getItemList()) {
+	            item.setOrderId(receipt);
+	            orderDao.item(item);
+	        }
 
-			for (ItemDto item : orderDto.getItemList()) {
-				item.setOrderId(receipt);
-				orderDao.item(item);
-			}
+	        response.putAll(ErrorCode.SUCCESS.toMap());
 
-			response.putAll(ErrorCode.SUCCESS.toMap());
+	    } catch (Exception e) {
+	        throw new RuntimeException("주문 처리 중 오류 발생", e);  // 트랜잭션이 롤백되도록 예외 발생
+	    }
 
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		return response;
+	    return response;
 	}
 
 	/**
