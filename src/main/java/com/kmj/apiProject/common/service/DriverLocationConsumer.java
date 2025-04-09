@@ -27,7 +27,7 @@ public class DriverLocationConsumer {
 		this.objectMapper = new ObjectMapper(); // ObjectMapper 생성
 	}
 
-	private static final String DRIVER_LOCATION_KEY = "driver:location";
+	private static final String DRIVER_LOCATION_KEY = "driver:location:";
 
 	// @RabbitListener를 사용하여 큐에서 메시지를 자동으로 처리
 	@RabbitListener(queues = "driver_queue") // 큐 이름을 동적으로 설정
