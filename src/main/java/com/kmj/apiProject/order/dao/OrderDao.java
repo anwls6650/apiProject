@@ -2,6 +2,7 @@ package com.kmj.apiProject.order.dao;
 
 import org.springframework.stereotype.Repository;
 
+import com.kmj.apiProject.auth.dto.AuthDto;
 import com.kmj.apiProject.auth.dto.DriverDto;
 import com.kmj.apiProject.common.dao.BaseDao;
 import com.kmj.apiProject.order.dto.DeliveryDto;
@@ -20,8 +21,8 @@ public class OrderDao extends BaseDao {
 
 	// 주문 등록
 	public int receipt(OrderDto orderDto) {
-		int orderId = insert("receipt", orderDto);
-		return orderId;
+		insert("receipt", orderDto);
+		return orderDto.getOrderId();
 	}
 
 	// 주문목록 등록
@@ -35,10 +36,17 @@ public class OrderDao extends BaseDao {
 
 		return selectOne("orderDetail", orderDto);
 	}
-	
+
 	// 주문 정보 검색
 	public DriverDto driverLocation(DeliveryDto deliveryDto) {
 
 		return selectOne("driverLocation", deliveryDto);
 	}
+
+	// 주문 회원 조회
+	public AuthDto orderUserDetail(AuthDto authDto) {
+
+		return selectOne("orderUserDetail", authDto);
+	}
+
 }
