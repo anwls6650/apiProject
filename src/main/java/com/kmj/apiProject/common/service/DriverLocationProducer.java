@@ -31,7 +31,7 @@ public class DriverLocationProducer {
             Queue queue = new Queue(queueName, true);
             amqpAdmin.declareQueue(queue);
             // RabbitMQ에 메시지 전송
-            rabbitTemplate.convertAndSend(queueName, message);  // "driver_queue"는 RabbitMQ 큐 이름
+            rabbitTemplate.convertAndSend(queueName, message); 
         } catch (Exception e) {
             e.printStackTrace();
         }
