@@ -30,7 +30,7 @@
 		order_id
 		,item_name
 		,item_cnt
-		,#{price}
+		,price
 		}
 		values
 		{
