@@ -14,6 +14,9 @@ public class OrderDto {
 	private String createdAt; // 주문 생성일
 	private String updatedAt; // 주문 업데이트일
 	
+	private double px;
+	private double py;
+	
 	private List<ItemDto> itemList;
 
 }

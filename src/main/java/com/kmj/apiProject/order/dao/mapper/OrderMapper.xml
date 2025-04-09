@@ -55,6 +55,14 @@
 		select * from drivers
 		where driver_id = #{driverId}
 	</select>
+	
+	<select id="orderUserDetail"
+		parameterType="com.kmj.apiProject.auth.dto.AuthDto"
+		resultType="com.kmj.apiProject.auth.dto.AuthDto">
+		select *
+		from users
+		where user_id = #{userId}
+	</select>
 
 
 </mapper>
