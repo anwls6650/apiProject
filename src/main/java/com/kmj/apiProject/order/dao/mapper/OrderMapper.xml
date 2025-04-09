@@ -10,15 +10,15 @@
 		useGeneratedKeys="true" keyProperty="orderId">
 		insert
 		into orders
-		{
+		(
 		user_id
 		,total_price
-		}
+		)
 		values
-		{
+		(
 		#{userId}
 		,#{totalPrice}
-		}
+		)
 
 	</insert>
 
@@ -26,19 +26,19 @@
 		parameterType="com.kmj.apiProject.order.dto.ItemDto">
 		insert
 		into items
-		{
+		(
 		order_id
 		,item_name
 		,item_cnt
 		,price
-		}
+		)
 		values
-		{
+		(
 		#{orderId}
 		,#{itemName}
 		,#{itemCnt}
 		,#{price}
-		}
+		)
 
 	</insert>
 
