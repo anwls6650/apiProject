@@ -12,6 +12,7 @@ import com.kmj.apiProject.auth.dto.DriverDto;
 import com.kmj.apiProject.common.config.ErrorCode;
 import com.kmj.apiProject.common.config.UtilsConfig;
 import com.kmj.apiProject.driver.dao.DriverDao;
+import com.kmj.apiProject.order.dto.DeliveryDto;
 
 @Service
 public class DriverService {
@@ -77,6 +78,40 @@ public class DriverService {
 		try {
 
 			driverDao.status(driverDto);
+
+			response.putAll(ErrorCode.SUCCESS.toMap());
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return response;
+	}
+	
+	
+	/**
+	 * 기사 주문 수락
+	 * 
+	 * @param DriverDto
+	 */ 
+	public Map<Object, Object> acceptance(DeliveryDto deliveryDto) {
+		Map<Object, Object> response = new HashMap<Object, Object>();
+		response.putAll(ErrorCode.FAIL.toMap());
+		
+		if (deliveryDto.getOrderId() == 0) {
+			response.putAll(ErrorCode.PARAMETER_FAIL.toMap());
+			return response;
+		}
+
+		try {
+			DeliveryDto acceptance = driverDao.acceptance(deliveryDto);
+			
+			if(acceptance != null) {
+				response.putAll(ErrorCode.FAIL_ACCEPTANCE.toMap());
+				return response;
+			}
+			
+			driverDao.orderStatus(deliveryDto);
 
 			response.putAll(ErrorCode.SUCCESS.toMap());
 

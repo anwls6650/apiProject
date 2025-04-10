@@ -9,16 +9,42 @@
 		parameterType="com.kmj.apiProject.auth.dto.DriverDto">
 		update drivers
 		set status = #{status}
-		where driver_id = #{driverId}
+		where driver_id =
+		#{driverId}
 	</update>
-	
+
 	<update id="updateDriverLocation"
 		parameterType="com.kmj.apiProject.auth.dto.DriverDto">
 		update drivers
 		set px = #{px}
-			,py = #{py}
-		where driver_id = #{driverId}
+		,py = #{py}
+		where driver_id =
+		#{driverId}
 	</update>
-	
+
+	<select id="acceptance"
+		parameterType="com.kmj.apiProject.order.dto.DeliveryDto"
+		resultType="com.kmj.apiProject.order.dto.DeliveryDto">
+		select * from
+		delivery
+		where order_id = #{orderId}
+	</select>
+
+	<insert id="orderStatus"
+		parameterType="com.kmj.apiProject.order.dto.DeliveryDto">
+		insert into delivery
+		(
+		driver_id
+		,order_id
+		,status
+		)
+		values
+		(
+		#{driverId}
+		,#{orderId}
+		,#{status}
+		)
+	</insert>
+
 
 </mapper>

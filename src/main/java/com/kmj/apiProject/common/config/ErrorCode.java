@@ -30,9 +30,8 @@ public enum ErrorCode {
     
     USER_NOT_FOUND("U0002", "존재하지 않는 사용자입니다."),
     
-    INVALID_TOKEN("T0001", "토큰이 유효하지 않습니다.");
-	
-
+    INVALID_TOKEN("T0001", "토큰이 유효하지 않습니다."),
+    FAIL_ACCEPTANCE("E9997", "해당 요청은 이미 처리 중입니다.");
 
     private final String code;
     private final String message;

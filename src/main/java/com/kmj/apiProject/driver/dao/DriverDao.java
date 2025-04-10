@@ -4,6 +4,7 @@ import org.springframework.stereotype.Repository;
 
 import com.kmj.apiProject.auth.dto.DriverDto;
 import com.kmj.apiProject.common.dao.BaseDao;
+import com.kmj.apiProject.order.dto.DeliveryDto;
 
 @Repository
 public class DriverDao extends BaseDao {
@@ -20,12 +21,24 @@ public class DriverDao extends BaseDao {
 
 		return insert("status", driverDto);
 	}
-	
-	
-	// 기사 상태 변경
+
+	// 보류
 	public int updateDriverLocation(DriverDto driverDto) {
 
 		return update("updateDriverLocation", driverDto);
 	}
+
+	// 기사 배정 조회
+	public DeliveryDto acceptance(DeliveryDto deliveryDto) {
+
+		return selectOne("acceptance", deliveryDto);
+	}
+	
+	// 배송기사 배정
+	public int orderStatus(DeliveryDto deliveryDto) {
+
+		return update("orderStatus", deliveryDto);
+	}
+
 
 }

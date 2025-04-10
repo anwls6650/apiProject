@@ -22,6 +22,7 @@ import com.kmj.apiProject.common.config.UtilsConfig;
 import com.kmj.apiProject.common.security.JwtUtil;
 import com.kmj.apiProject.common.service.DriverLocationProducer;
 import com.kmj.apiProject.driver.service.DriverService;
+import com.kmj.apiProject.order.dto.DeliveryDto;
 
 @Controller
 @RequestMapping("/kmj/driver")
@@ -81,6 +82,25 @@ public class DriverController {
 
 		return driverService.status(driverDto);
 
+	}
+	
+	/**
+	 * 기사 주문 수락
+	 * 
+	 * @param deliveryDto
+	 */
+	@PostMapping("/order")
+	@ResponseBody
+	public Map<Object, Object> acceptance(@RequestBody DeliveryDto deliveryDto) {
+		
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		int driverId = (Integer) authentication.getPrincipal(); // 이미 필터에서 설정된 사용자 ID
+
+		deliveryDto.setDriverId(driverId);
+
+		logger.info("/kmj/driver/acceptance : {}", deliveryDto);
+
+		return driverService.acceptance(deliveryDto);
 	}
 
 	/**
