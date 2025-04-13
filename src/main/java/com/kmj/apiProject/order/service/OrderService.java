@@ -102,9 +102,34 @@ public class OrderService {
 				amqpAdmin.declareQueue(queue);
 
 				// RabbitMQ에 메시지 전송
-				rabbitTemplate.convertAndSend(queueName, message); 
+				rabbitTemplate.convertAndSend(queueName, message);
 
 			}
+
+			response.putAll(ErrorCode.SUCCESS.toMap());
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new RuntimeException("주문 처리 중 오류 발생", e); // 트랜잭션이 롤백되도록 예외 발생
+		}
+
+		return response;
+	}
+
+	/**
+	 * 주문 취소
+	 * 
+	 * @param orderDto
+	 */
+	@Transactional
+	public Map<Object, Object> cancel(OrderDto orderDto) {
+		Map<Object, Object> response = new HashMap<>();
+		response.putAll(ErrorCode.FAIL.toMap());
+
+		try {
+			int cancel = orderDao.receipt(orderDto);
+		
+
 
 			response.putAll(ErrorCode.SUCCESS.toMap());
 

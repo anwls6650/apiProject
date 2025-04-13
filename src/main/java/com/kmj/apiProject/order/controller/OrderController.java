@@ -50,6 +50,26 @@ public class OrderController {
 	}
 
 	/**
+	 * 주문 취소
+	 * 
+	 * @param OrderDto
+	 */
+	@PostMapping("/cancel")
+	@ResponseBody
+	public Map<Object, Object> cancel(@RequestBody OrderDto orderDto) {
+
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		int userId = (Integer) authentication.getPrincipal(); // 이미 필터에서 설정된 사용자 ID
+
+		orderDto.setUserId(userId);
+
+		logger.info("/kmj/order/cancel : {}", orderDto);
+
+		return orderService.cancel(orderDto);
+
+	}
+
+	/**
 	 * 주문 기사 위치 정보
 	 * 
 	 * @param orderDto

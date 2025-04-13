@@ -25,6 +25,12 @@ public class OrderDao extends BaseDao {
 		return orderDto.getOrderId();
 	}
 
+	// 주문 취소
+	public int cancel(OrderDto orderDto) {
+		
+		return delete("cancel", orderDto);
+	}
+
 	// 주문목록 등록
 	public int item(ItemDto itemDto) {
 
