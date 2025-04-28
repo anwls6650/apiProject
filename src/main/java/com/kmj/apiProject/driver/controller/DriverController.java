@@ -29,7 +29,7 @@ import com.kmj.apiProject.order.dto.DeliveryDto;
 public class DriverController {
 
 	// SLF4J Logger 생성
-	private static final Logger logger = LoggerFactory.getLogger(AuthController.class);
+	private static final Logger logger = LoggerFactory.getLogger(DriverController.class);
 
 	@Autowired
 	DriverService driverService;

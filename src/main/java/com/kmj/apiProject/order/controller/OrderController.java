@@ -24,7 +24,7 @@ import com.kmj.apiProject.order.service.OrderService;
 public class OrderController {
 
 	// SLF4J Logger 생성
-	private static final Logger logger = LoggerFactory.getLogger(AuthController.class);
+	private static final Logger logger = LoggerFactory.getLogger(OrderController.class);
 
 	@Autowired
 	OrderService orderService;
