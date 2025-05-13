@@ -17,16 +17,23 @@ import com.kmj.apiProject.order.dto.DeliveryDto;
 @Service
 public class DriverService {
 
-	@Autowired
-	DriverDao driverDao;
-
+//	@Autowired
+//	DriverDao driverDao;
+	private final DriverDao driverDao;
 	private final RedisTemplate<String, String> redisTemplate;
     private final ObjectMapper objectMapper;
 
+//    @Autowired
+//    public DriverService(RedisTemplate<String, String> redisTemplate) {
+//        this.redisTemplate = redisTemplate;
+//        this.objectMapper = new ObjectMapper(); // ObjectMapper 생성
+//    }
+    
     @Autowired
-    public DriverService(RedisTemplate<String, String> redisTemplate) {
+    public DriverService(DriverDao driverDao, RedisTemplate<String, String> redisTemplate) {
+        this.driverDao = driverDao;
         this.redisTemplate = redisTemplate;
-        this.objectMapper = new ObjectMapper(); // ObjectMapper 생성
+        this.objectMapper = new ObjectMapper();
     }
 	private static final String DRIVER_LOCATION_KEY = "driver:location";
 
